@@ -49,7 +49,7 @@
 #define __LCD_LineStart_4			0x54
 #elif (LCD_Size == 4001)
 #define __LCD_Rows					1
-#define __LCD_Columns				20
+#define __LCD_Columns				40
 #define __LCD_LineStart_1			0x00
 #elif (LCD_Size == 4002)
 #define __LCD_Rows					2
