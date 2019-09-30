@@ -19,8 +19,8 @@
 ||
 ||*If LCD size is 16x1, choose variant A or B
 ||	Type	Row DDRAM Address			Details
-||	0		0x00->0x0F					Row uses consequtive block addresses.
-||	1		0x00->0x07 + 0x40->0x47		Row is split into two sections.
+||	Α		0x00->0x0F					Row uses consequtive block addresses.
+||	Β		0x00->0x07 + 0x40->0x47		Row is split into two sections.
 ||
 */
 
