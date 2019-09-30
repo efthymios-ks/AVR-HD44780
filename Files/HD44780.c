@@ -60,16 +60,16 @@
 //-----------------------------------------------//
 
 //----- Prototypes ----------------------------//
-static void LCD_SendCommandHigh(const uint8_t Command);
-static void LCD_Send(const uint8_t Data);
-static uint8_t LCD_Read(void);
-static inline void Pulse_En(void);
+static void LCD_SendCommandHigh(uint8_t Command);
+static void LCD_Send(uint8_t Data);
+static uint8_t LCD_Read();
+static inline void Pulse_En();
 static void Int2bcd(int32_t Value, char *BCD);
 //---------------------------------------------//
 
 //----- Functions -------------//
 //Setup LCD.
-void LCD_Setup(void)
+void LCD_Setup()
 {
 	//LCD pins = Outputs
 	PinMode(LCD_D4, Output);
@@ -119,7 +119,7 @@ void LCD_Setup(void)
 }
 
 //Send command to LCD.
-void LCD_SendCommand(const uint8_t Command)
+void LCD_SendCommand(uint8_t Command)
 {
 	LCD_WaitBusy();
 
@@ -128,7 +128,7 @@ void LCD_SendCommand(const uint8_t Command)
 }
 
 //Send data to LCD.
-void LCD_SendData(const char c)
+void LCD_SendData(char c)
 {
 	LCD_WaitBusy();
 
@@ -137,7 +137,7 @@ void LCD_SendData(const char c)
 }
 
 //Wait until busy flag is cleared.
-void LCD_WaitBusy(void)
+void LCD_WaitBusy()
 {
 	uint8_t busy = 0;
 	
@@ -170,7 +170,7 @@ void LCD_WaitBusy(void)
 }
 
 //Build character in LCD CGRAM from data in SRAM.
-void LCD_BuildChar(const char *Data, const uint8_t Position)
+void LCD_BuildChar(char *Data, uint8_t Position)
 {
 	if (Position < 0)
 		return;
@@ -192,7 +192,7 @@ void LCD_BuildChar(const char *Data, const uint8_t Position)
 }
 
 //Build character in LCD CGRAM from data in Flash memory.
-void LCD_BuildChar_P(const char *Data, const uint8_t Position)
+void LCD_BuildChar_P(const char *Data, uint8_t Position)
 {
 	if (Position < 0)
 		return;
@@ -214,13 +214,13 @@ void LCD_BuildChar_P(const char *Data, const uint8_t Position)
 }
 
 //Clear display.
-void LCD_Clear(void)
+void LCD_Clear()
 {
 	LCD_SendCommand(__LCD_CMD_ClearDisplay);
 }
 
 //Clear line.
-void LCD_ClearLine(const uint8_t Line)
+void LCD_ClearLine(uint8_t Line)
 {
 	uint8_t i = 0;
 	
@@ -233,7 +233,7 @@ void LCD_ClearLine(const uint8_t Line)
 }
 
 //Go to specified position.
-void LCD_GotoXY(uint8_t X, const uint8_t Y)
+void LCD_GotoXY(uint8_t X, uint8_t Y)
 {
 	if ((X < __LCD_Columns) && (Y < __LCD_Rows))
 	{
@@ -274,24 +274,24 @@ void LCD_GotoXY(uint8_t X, const uint8_t Y)
 }
 
 //Get current position.
-Point_t LCD_GetP(void)
+Point_t LCD_GetP()
 {
 	Point_t p;
 	
 	p.X = LCD_Read();
 	p.Y = 0;
-	#if (LCD_ROWS == 1)
-	#if ((LCD_Size == 1601) && (LCD_Type == 1))
+	#if (__LCD_Rows == 1)
+	#if ((LCD_Size == 1601) && (LCD_Type == B))
 	if (p.X >= __LCD_LINESTART_1B)
 	p.X = p.X - __LCD_LINESTART_1B + (__LCD_Columns>>1);
 	#endif
-	#elif (LCD_ROWS == 2)
+	#elif (__LCD_Rows == 2)
 	if (p.X >= __LCD_LineStart_2)
 	{
 		p.X -= __LCD_LineStart_2;
 		p.Y = 1;
 	}
-	#elif (LCD_ROWS == 3)
+	#elif (__LCD_Rows == 3)
 	if (p.X >= __LCD_LineStart_2)
 	{
 		p.X -= __LCD_LineStart_2;
@@ -302,7 +302,7 @@ Point_t LCD_GetP(void)
 		p.X -= __LCD_LineStart_3;
 		p.Y = 2;
 	}
-	#elif (LCD_ROWS == 4)
+	#elif (__LCD_Rows == 4)
 	if (p.X >= __LCD_LineStart_4)
 	{
 		p.X -= __LCD_LineStart_4;
@@ -324,25 +324,25 @@ Point_t LCD_GetP(void)
 }
 
 //Get X position.
-uint8_t LCD_GetX(void)
+uint8_t LCD_GetX()
 {
 	return LCD_GetP().X;
 }
 
 //Get Y position.
-uint8_t LCD_GetY(void)
+uint8_t LCD_GetY()
 {
 	return LCD_GetP().Y;
 }
 
 //Print character.
-void LCD_PrintChar(const char Character)
+void LCD_PrintChar(char Character)
 {
 	LCD_SendData(Character);
 }
 
 //Print string from SRAM.
-void LCD_PrintString(const char *Text)
+void LCD_PrintString(char *Text)
 {
 	while(*Text)
 		LCD_SendData(*Text++);
@@ -360,7 +360,7 @@ void LCD_PrintString_P(const char *Text)
 }
 
 //Print integer.
-void LCD_PrintInteger(const int32_t Value)
+void LCD_PrintInteger(int32_t Value)
 {
 	if (Value == 0 )
 	{
@@ -380,7 +380,7 @@ void LCD_PrintInteger(const int32_t Value)
 }
 
 //Print double.
-void LCD_PrintDouble(double Value, const uint32_t Tens)
+void LCD_PrintDouble(double Value, uint32_t Tens)
 {
 	if (Value == 0)
 	{
@@ -410,7 +410,7 @@ void LCD_PrintDouble(double Value, const uint32_t Tens)
 }
 
 //Send only high nibble to LCD.
-static void LCD_SendCommandHigh(const uint8_t Data)
+static void LCD_SendCommandHigh(uint8_t Data)
 {
 	DigitalWrite(LCD_RS, Low);
 
@@ -423,7 +423,7 @@ static void LCD_SendCommandHigh(const uint8_t Data)
 }
 
 //Send data to LCD.
-static void LCD_Send(const uint8_t Data)
+static void LCD_Send(uint8_t Data)
 {
 	//Send the high nibble
 	DigitalWrite(LCD_D4, BitCheck(Data, 4));
@@ -441,7 +441,7 @@ static void LCD_Send(const uint8_t Data)
 }
 
 //Read status from LCD.
-static uint8_t LCD_Read(void)
+static uint8_t LCD_Read()
 {
 	uint8_t status = 0;
 
@@ -481,7 +481,7 @@ static uint8_t LCD_Read(void)
 }
 
 //Sends pulse to PIN_EN of LCD.
-static inline void Pulse_En(void)
+static inline void Pulse_En()
 {
 	DigitalWrite(LCD_EN, High);
 	_delay_us(__LCD_Pulse_us);

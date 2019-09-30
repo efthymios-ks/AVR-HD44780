@@ -72,24 +72,24 @@ typedef struct
 //------------------------------------------------//
 
 //----- Prototypes ------------------------------------------------------------//
-void LCD_Setup(void);
-void LCD_SendCommand(const uint8_t Command);
-void LCD_SendData(const char Character);
-void LCD_WaitBusy(void);
-void LCD_BuildChar(const char *Data, const uint8_t Position);
-void LCD_BuildChar_P(const char *Data, const uint8_t Position);
+void LCD_Setup();
+void LCD_SendCommand(uint8_t Command);
+void LCD_SendData(char Character);
+void LCD_WaitBusy();
+void LCD_BuildChar(char *Data, uint8_t Position);
+void LCD_BuildChar_P(const char *Data, uint8_t Position);
 
-void LCD_Clear(void);
-void LCD_ClearLine(const uint8_t Line);
-void LCD_GotoXY(uint8_t X, const uint8_t Y);
-Point_t LCD_GetP(void);
-uint8_t LCD_GetX(void);
-uint8_t LCD_GetY(void);
+void LCD_Clear();
+void LCD_ClearLine(uint8_t Line);
+void LCD_GotoXY(uint8_t X, uint8_t Y);
+Point_t LCD_GetP();
+uint8_t LCD_GetX();
+uint8_t LCD_GetY();
 
-void LCD_PrintChar(const char Character);
-void LCD_PrintString(const char *Text);
+void LCD_PrintChar(char Character);
+void LCD_PrintString(char *Text);
 void LCD_PrintString_P(const char *Text);
-void LCD_PrintInteger(const int32_t Value);
-void LCD_PrintDouble(const double Value, const uint32_t Tens);
+void LCD_PrintInteger(int32_t Value);
+void LCD_PrintDouble(double Value, uint32_t Tens);
 //-----------------------------------------------------------------------------//
 #endif
