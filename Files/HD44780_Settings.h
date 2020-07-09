@@ -11,11 +11,11 @@
 ||	Settings for the HD44780 driver. Pick a size and the
 ||	desirable pins. 16x1 needs testing.
 ||
-||	Size	Code	|	Size	Code	|	Size	Code	|	Size	Code	|
-||------------------------------------------------------------------------------|
+||	Size	Code	|	Size	Code	      |	Size	Code	  |	Size	Code	  |
+||------------------------------------------------------------------|
 ||	8x1 -	801 	| *	16x1 -	1601 *	|	20x1 -	2001 	|	40x1 -	4001	|
-||	8x2 -	802		|	16x2 -	1602 	|	20x2 -	2002 	|	40x2 -	4002 	|
-||					|	16x4 -	1604 	|	20x4 -	2004 	|					|
+||	8x2 -	802		|	16x2 -	1602 	    |	20x2 -	2002 	|	40x2 -	4002 	|
+||					    |	16x4 -	1604 	    |	20x4 -	2004 	|					      |
 ||
 ||*If LCD size is 16x1, choose variant A or B
 ||	Type	Row DDRAM Address			Details
